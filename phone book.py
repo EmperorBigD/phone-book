@@ -23,7 +23,7 @@ def INSERT():
 
     tup = (id, namet, phonenumber, email)
 
-    cursor.execute(sql, tup)
+    cursor.execute(sql, tup) 
 
     connection.commit()
 
@@ -46,21 +46,20 @@ def FIND():
         name = input('\t\tEnter a name - ')
         sql = 'SELECT * FROM phone_book WHERE name = ?' # SQL code.
         tup = (name)
-        cursor.execute(sql, tup)
         
     elif y == 2:
 
         phonenumber = int(input('\t\tEnter a phonenumber - '))
         sql = 'SELECT * FROM phone_book WHERE phonenumber = ?' # SQL code.
         tup = (phonenumber)
-        cursor.execute(sql, tup)
 
     elif y == 3:
 
         email = input('\t\tEnter a email - ')
         sql = 'SELECT * FROM phone_book WHERE email = ?' # SQL code.
         tup = (email)
-        cursor.execute(sql, tup)
+    
+    cursor.execute(sql, tup) # single execute for all three condition.
 
     for row in cursor: # print the row.
 
@@ -89,21 +88,20 @@ def UPDATE():
         name = input('\t\tEnter a name - ')
         sql = 'UPDATE phone_book SET name = ? WHERE id = ?' # SQL code.
         tup = (name, id)
-        cursor.execute(sql, tup)
    
     elif z == 2:
 
         phonenumber = int(input('\t\tEnter a phonenumber - '))
         sql = 'UPDATE phone_book SET phonenumber = ? WHERE id = ?' # SQL code.
         tup = (phonenumber, id)
-        cursor.execute(sql, tup)
 
     elif z == 3:
 
         email = input('\t\tEnter a email - ')
         sql = 'UPDATE phone_book SET email = ? WHERE id = ?' # SQL code.
         tup = (email, id)
-        cursor.execute(sql, tup)
+    
+    cursor.execute(sql, tup) # single execute for all three condition.
 
     # print updated data.
 
@@ -133,20 +131,51 @@ def DELETE():
     connection.commit()
 
 
-x = 0
-while not (1 <= x <= 4):
-    x = int(input('''
+def main():
+    while True: # Use a while True loop for an infinite menu.
+        try:
+            x = int(input('''
 What do you want to do?
-For enter new data enter 1
-For find existing data enter 2
-For edit existing data enter 3
-For delete existing data enter 4
-Enter - '''))
+1 - Enter new data
+2 - Find existing data
+3 - Edit existing data
+4 - Delete existing data
+5 - Exit
+Enter your choice: '''))
 
-match x:
-    case 1  : INSERT()
-    case 2  : FIND()       # Added different parameters in version 2.0
-    case 3  : UPDATE()     # Added in version 3.0
-    case 4  : DELETE()     # Added in version 2.0
+            match x:
+                case 1: INSERT()
+                case 2: FIND()
+                case 3: UPDATE()
+                case 4: DELETE()
+                case 5: # to exit the loop we use break.
+                    print('\nExiting the program. Goodbye!\n')
+                    break 
+                case _: # if you enter any other number.
+                    print("Invalid option. Please enter a number between 1 and 5.")
+        except ValueError: # if you enter a letter.
+            print("Invalid input. Please enter a number.")
 
-print('\n---END of Code---\n')
+if __name__ == '__main__':
+    main() # so that this block of code does not run automatically when imported.
+
+
+
+# ✅ What is a try-except block?
+# A try-except block is a construct in Python used for exception handling. 
+# It lets you catch and respond to errors without crashing the program.
+
+'''
+try:
+    # some risky code
+except SomeError:
+    # handle the error
+finally:
+    # always run this (cleanup)
+'''
+
+# 🧠 Summary
+# Component	Purpose
+# try:	    Run risky code
+# except:	Handle specific errors
+# finally:	Run cleanup code regardless of outcome
